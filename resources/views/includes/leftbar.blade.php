@@ -16,8 +16,8 @@
             <div class="">
                 <!--<a href="index" class="logo text-center">Fonik</a>-->
 
-                <a href="{{ URL::asset('index')}}" class="logo"><img src="{{ URL::asset('assets/images/logo.png')}}"
-                                                                     height="40" alt="logo"></a>
+                <a href="{{ URL::asset('index')}}" class="logo"><img src="{{ URL::asset('assets/images/Royal Laundry.png')}}"
+                                                                     height="150" alt="logo"></a>
 
             </div>
         </div>
@@ -35,15 +35,27 @@
                     
                     
 
-                   
-
-
-            
                     <li>
-                        <a href="test-page" class="waves-effect"><i
-                                    class="fa fa-user"></i><span>Test</span></a>
+                        <a href="{{route('make-a-booking')}}" class="waves-effect"><i
+                                    class="dripicons-device-desktop"></i><span>Make a Booking </span></a>
                     </li>
 
+                   
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="ion-fork ion-pizza"></i><span>Main Service<span
+                                        class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{route('category-prices')}}"><span>Cloth Prices</span></a>
+                            </li>
+                            <li>
+                                <a href="{{route('categories')}}"><span>Cloths</span></a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    
                    
 
                 </ul>

@@ -13,7 +13,7 @@
         <link href="{{ URL::asset('assets/images/favicon.ico')}}">
 
         <!-- App title -->
-        <title>Vehicle Service System</title>
+        <title></title>
         
         <!-- App css -->
         <link href="{{ URL::asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">

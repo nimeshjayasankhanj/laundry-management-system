@@ -14,7 +14,7 @@ class SecurityController extends Controller
 
     public function signin(Request $request)
     {
-        $this->validate($request, ['username' => 'required|email', 'password' => 'required|min:3']);
+        $this->validate($request, ['username' => 'required', 'password' => 'required|min:3']);
 
         $advanceEncryption=(new  \App\MyResources\AdvanceEncryption($request->get('password'),"Nova6566",256));
 
@@ -24,12 +24,13 @@ class SecurityController extends Controller
             'status' => '1'
         );
 
-        $user = User::where('username', $request->get('username'))->where('password',$advanceEncryption->encrypt())->exists();
+        $user = User::where('nic', $request->get('username'))->where('password',$advanceEncryption->encrypt())->exists();
         if ($user==true){
-            $userData=User::where('username', $request->get('username'))->where('password',$advanceEncryption->encrypt())->first();
+            $userData=User::where('nic', $request->get('username'))->where('password',$advanceEncryption->encrypt())->first();
             if ($userData->status==1){
-                session(['userid' => $userData->idUser,'username'=>$userData->username,'companyid'=>$userData->Company]);
+                session(['userid' => $userData->idUser]);
                 Auth::login($userData);
+
                 return redirect('/');
             }else if($userData->status==0){
                 return back()->with('warning', 'User has been suspended! Contact your System Administrator.');

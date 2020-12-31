@@ -72,7 +72,7 @@
                                 <li class="list-inline-item dropdown notification-list">
                                     <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                                        aria-haspopup="false" aria-expanded="false">
-                                       <img src="{{ URL::asset('assets/images/users/avatar-1.jpg')}}" height="20" alt="user" class="rounded-circle">
+                                       <img src="{{ URL::asset('assets/images/avatar-1.jpg')}}" height="20" alt="user" class="rounded-circle">
 
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
