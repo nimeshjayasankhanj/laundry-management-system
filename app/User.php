@@ -13,4 +13,9 @@ class User extends Authenticatable
     protected $table= 'user_master';
     protected  $primaryKey='iduser_master';
 
+    public function MasterBooking(){
+        return $this->hasMany(MasterBooking::class,'user_master_iduser_master');
+    }
+
+    
 }

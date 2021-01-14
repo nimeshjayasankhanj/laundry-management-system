@@ -48,31 +48,32 @@
             <div class="col-lg-8">
                 <div class="card m-b-20">
                     <form class="" method="post" enctype="multipart/form-data"
-                    action="{{ route('saveTempCloth') }}" id="temClothId">
+                    action="{{ route('saveTempProduct') }}" id="temProductId">
+                    <input type="hidden" id="idOrder" value="{{$idOrder}}" name="idOrder"
                     {{csrf_field()}}
                     <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Cloth Types<span style="color: red"> *</span></label>
-                                        <select class="form-control select2 tab" name="category" onchange="getClothPrice(this.value)"
-                                        id="category" >
-                                    <option value="" disabled selected>Select Cloth Type
+                                        <label for="example-text-input" class="col-form-label">Products<span style="color: red"> *</span></label>
+                                        <select class="form-control select2 tab" name="product" onchange="getAvailableQty(this.value)"
+                                        id="product" >
+                                    <option value="" disabled selected>Select Product
                                     </option>
-                                    @if(isset($mainCategories))
-                                        @foreach($mainCategories as $mainCategory)
-                                            <option value="{{"$mainCategory->idmain_category"}}">{{$mainCategory->main_category_name}} </option>
+                                    @if(isset($items))
+                                        @foreach($items as $item)
+                                            <option value="{{"$item->idproduct"}}">{{$item->product_name}} </option>
                                         @endforeach
                                     @endif
                                 </select>
-                                <small class="text-danger" id="categoryError"></small>
+                                <small class="text-danger" id="productError"></small>
                             </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Price(1 pices)</label>
+                                        <label for="example-text-input" class="col-form-label">Available Qty</label>
             
-                                        <input type="number" class="form-control" name="cPrice" id="cPrice" disabled
+                                        <input type="number" class="form-control" name="availableQty" id="availableQty" disabled
                                                placeholder="0.00"/>
                                         
                                     </div>
@@ -83,7 +84,7 @@
             
                                         <input type="number" class="form-control" name="qty" id="qty"
                                                placeholder="0.00"/>
-                                        <small class="text-danger" id="cPriceError"></small>
+                                        <small class="text-danger" id="qtyError"></small>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +94,7 @@
                                 <div class="col-lg-3">
                                     <button type="submit" class="btn btn-primary"
                                     >
-                                 Add Cloth</button>
+                                 Add Item</button>
                              </form>
                                 </div>
                             </div>
@@ -106,9 +107,9 @@
                                             width="100%">
                                         <thead>
                                         <tr>
-                                            <th>CLOTH NAME</th>
+                                            <th>CATEGORY</th>
+                                            <th>PRODUCT</th>
                                             <th>QTY</th>
-                                            <th style="text-align: right">TOTAL</th>
                                             <th>DELETE</th>
                                             <th>EDIT</th>
                                         </tr>
@@ -120,39 +121,21 @@
                                 </div>
                             </div>
                                   
-                            <div class="row" id="bookingPaymentButton">
-                                
-                                
-                                <div class="col-lg-3">
-                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="paymentType" value="cash" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                          Cash Payment
-                                        </label>
-                                      </div>
-                                     
-                                </div>
-                                <div class="col-lg-3">
-                                   
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="paymentType" value="card">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                          Card Payment
-                                        </label>
-                                      </div>
-                                </div>
-                            </div>
+                            
+                            <div class="row" id="bookingButton" >
 
-                            <div class="row" id="bookingButton" style="margin-top: 20px">
                                 
                                 <div class="col-lg-4">
-                                    <button type="button" onclick="saveBooking()"  class="btn btn-primary" id="saveBookingBtn"
+                                 @if($paymentStatus->payment_type=='CASH')
+                                    <button type="button"   data-toggle="modal"  data-target="#paymentModal" class="btn btn-primary" id="saveBookingBtn"
                                     >
-                                 Save Booking</button>
-
-                                 <button type="button" class="btn btn-primary" id="waitButton"
-                                 style="display: none">
-                                 <i class="fa fa-circle-o-notch fa-spin"></i> Plsease Wait</button>
+                                 Save Invoice</button>
+                                
+                                 @else
+                                    <button type="button" onclick="saveInvoice()"  class="btn btn-primary" id="saveBookingBtn"
+                                    >
+                                Save Invoice</button>
+                                @endif
                                 </div>
                             </div>
                     </div>
@@ -187,6 +170,36 @@
 
 
 
+<!--paymentModal-->
+<div class="modal fade" id="paymentModal" tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Save Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="form-group">
+                            <label for="example-text-input" class="col-form-label">Paid Amount<span style="color: red"> *</span></label>
+
+                            <input type="text" class="form-control" name="paymentAmount" id="paymentAmount" required
+                                   placeholder="0.00"/>
+                            <span id="paymentAmountError" style="color: red"></span>
+                        </div>
+                <button type="button" class="btn btn-primary waves-effect "
+                        onclick="saveInvoice()" >
+                    Save Invoice</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--update modal-->
 
 <div class="modal fade" id="updateCategoryModal" tabindex="-1"
@@ -202,23 +215,25 @@
             </div>
             <div class="modal-body">
                 <form class="" method="post" enctype="multipart/form-data"
-                action="{{ route('editTempBooking') }}" id="editTempBookingId">
+                action="{{ route('editTempInvItem') }}" id="editTempItemId">
                 {{csrf_field()}}
                 
 
-                <div class="form-group">
-                    <label for="example-text-input" class="col-form-label">Cloth Types<span style="color: red"> *</span></label>
-                    <select class="form-control select2 tab" name="uCategory" id="uCategory" >
-                <option value=""  selected>Select Cloth Type
-                </option>
-                @if(isset($mainCategories))
-                    @foreach($mainCategories as $mainCategory)
-                        <option value="{{"$mainCategory->idmain_category"}}">{{$mainCategory->main_category_name}} </option>
-                    @endforeach
-                @endif
-            </select>
-            <small class="text-danger" id="uCategoryError"></small>
-            </div>
+              
+                    <div class="form-group">
+                        <label for="example-text-input" class="col-form-label">Products<span style="color: red"> *</span></label>
+                        <select class="form-control select2 tab" name="uProduct" onchange="getAvailableQty(this.value)"
+                        id="uProduct" >
+                    <option value="" disabled selected>Select Product
+                    </option>
+                    @if(isset($items))
+                        @foreach($items as $item)
+                            <option value="{{"$item->idproduct"}}">{{$item->product_name}} </option>
+                        @endforeach
+                    @endif
+                </select>
+                <small class="text-danger" id="uProductError"></small>
+                    </div>
 
             <div class="form-group">
                 <label for="example-text-input" class="col-form-label">Qty<span style="color: red"> *</span></label>
@@ -231,7 +246,7 @@
                 <input type="hidden" id="hiddenTempId" name="hiddenTempId">
                 <button type="submit" class="btn btn-warning"
                        >
-                    Update Booking</button>
+                    Update Item</button>
                 </form>
             </div>
         </div>
@@ -304,67 +319,78 @@
 
         $("#categoryError").html('');
         $("#uCategoryError").html('');
-
+        $("#paymentAmountError").html('');
         $("#cPriceError").html('');
         $("#cPriceError").html('');
-        $('input').val('');
-        $(".select2").val('').trigger('change');
+      
     });
 
-    function getClothPrice(categoryID){
-        $.post('getCothPrice',{
-            categoryID:categoryID
+   
+
+    function getAvailableQty(itemId){
+
+        $.post('getAvailableQty',{
+            itemId:itemId
         },function(data){
-            $("#cPrice").val(data.price)
+            console.log(data)
+            if(data!=null){
+                $("#availableQty").val(data);
+            }
+               
         })
     }
 
     function tableData(){
 
-        $.post('tableData',{
-          
+        var idOrder=$("#idOrder").val();
+
+        $.post('tableInvoiceData',{
+            idOrder:idOrder
         },function(data){
-           
-            if(data.total==0){
-                $("#bookingButton").hide();
-                $("#bookingPaymentButton").hide();
+            
+            if(data.tempItem==0){
+                $("#saveBookingBtn").hide();
+               
             }else{
-                $("#bookingButton").show();
-                $("#bookingPaymentButton").show();
+                $("#saveBookingBtn").show();
+               
             }
             
-            $("tbody").html(data.tableData)
+            $("tbody").html(data.tableData);
+            $("#availableQty").val('');
             $("#priceArea").html(data.tableData2)
         })
     }
     
 
     //save temo booking
-    $("#temClothId").on("submit", function (event) {
+    $("#temProductId").on("submit", function (event) {
               
-              $("#categoryError").html('');
+              $("#productError").html('');
+              $("#qtyError").html('');
+
               event.preventDefault();
 
                   $.ajax({
-                      url: '{{route('saveTempCloth')}}',
+                      url: '{{route('saveTempInvProduct')}}',
                       type: 'POST',
                       data: $(this).serialize(),
                       success: function (data) {
-                            console.log(data)
+                         
                           if (data.errors != null) {
-                              if(data.errors.category) {
-                                  var p = document.getElementById('categoryError');
-                                  p.innerHTML = data.errors.category[0];
+                              if(data.errors.product) {
+                                  var p = document.getElementById('productError');
+                                  p.innerHTML = data.errors.product[0];
                               }
                               if(data.errors.qty) {
-                                  var p = document.getElementById('cPriceError');
+                                  var p = document.getElementById('qtyError');
                                   p.innerHTML = data.errors.qty[0];
                               }
                           }
                           if (data.success != null) {
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'BOOKING SAVED',
+                              title: 'ITEM SAVED',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {
@@ -374,18 +400,11 @@
                               icon: '<img src="{{ URL::asset('assets/images/correct.png')}}" />',
                               message: data.success,
                               });
-                              $("#category").val('').trigger('change');
+                              $("#product").val('').trigger('change');
                               $("#qty").val('');
-                              $("tbody").html(data.tableData);
-                              $("#priceArea").html(data.tableData2);
+                              $("#availableQty").val('');
+                              tableData();
 
-                              if(data.total==0){
-                $("#bookingButton").hide();
-                $("#bookingPaymentButton").hide();
-            }else{
-                $("#bookingButton").show();
-                $("#bookingPaymentButton").show();
-            }
                           }
                       } 
                   });
@@ -396,12 +415,12 @@
           
         //set edit values
           $(document).on('click', '#uTempID', function () {
-            var categoryId = $(this).data("id");
+            var itemId = $(this).data("id");
             var categoryQty = $(this).data("qty");
             var category = $(this).data("category");
 
-            $("#uCategory").val(category).trigger('change');
-            $("#hiddenTempId").val(categoryId);
+            $("#uProduct").val(category).trigger('change');
+            $("#hiddenTempId").val(itemId);
             $("#uQty").val(categoryQty);
             });
             
@@ -411,13 +430,13 @@
     $(document).on('click', '#deleteId', function () {
         var tempId = $(this).data("id");
         
-        $.post('deleteTempBooking',{
+        $.post('deleteTempInv',{
             tempId:tempId
         },function(data){
             if (data.success != null) {
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'BOOKING DELETED',
+                              title: 'ITEM DELETED',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {
@@ -427,39 +446,31 @@
                               icon: '<img src="{{ URL::asset('assets/images/correct.png')}}" />',
                               message: data.success,
                               });
-                              $("tbody").html(data.tableData);
-                              $("#priceArea").html(data.tableData2);
-
-
-                              if(data.total==0){
-                $("#bookingButton").hide();
-                $("#bookingPaymentButton").hide();
-            }else{
-                $("#bookingButton").show();
-                $("#bookingPaymentButton").show();
-            }
+                              tableData();
                           }
         })
     });
 
 
     //edit temp booking
-    $("#editTempBookingId").on("submit", function (event) {
+    $("#editTempItemId").on("submit", function (event) {
               
-              $("#categoryError").html('');
+              $("#uProductError").html('');
+              $("#uQtyError").html('');
+
               event.preventDefault();
 
                   $.ajax({
-                      url: '{{route('editTempBooking')}}',
+                      url: '{{route('editTempInvItem')}}',
                       type: 'POST',
                       data: $(this).serialize(),
                       success: function (data) {
 
                         console.log(data)
                           if (data.errors != null) {
-                            if(data.errors.uCategory) {
-                                  var p = document.getElementById('uCategoryError');
-                                  p.innerHTML = data.errors.uCategory[0];
+                            if(data.errors.uProduct) {
+                                  var p = document.getElementById('uProductError');
+                                  p.innerHTML = data.errors.uProduct[0];
                               }
                               if(data.errors.uQty) {
                                   var p = document.getElementById('uQtyError');
@@ -471,7 +482,7 @@
                           if (data.success != null) {
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'BOOKING SAVED',
+                              title: 'ITEM UPDATED',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {
@@ -486,8 +497,8 @@
                                 
                                 $('#updateCategoryModal').modal('hide');
                              }, 200);
-                              $("tbody").html(data.tableData);
-                              $("#priceArea").html(data.tableData2);
+                             $("#availableQty").val('');
+                            tableData();
                           }
                       } 
                   });
@@ -506,27 +517,36 @@
     });
 
 
-    function saveBooking(){
+    function saveInvoice(){
 
-        var paymentType=$("#paymentType").val();
+        var paymentAmount=$("#paymentAmount").val();
+        var idOrder=$("#idOrder").val();
 
-        $("#waitButton").show();
-        $("#saveBookingBtn").hide();
-
-        if(paymentType=='cash'){
-            var payment=1;
-        }else{
-            var payment=0;
-        }
-
-        $.post('saveBooking',{
-            payment:payment
+        $.post('saveInvoice',{
+           idOrder:idOrder,
+           paymentAmount:paymentAmount
         },function(data){
 
+            if(data.errorsAmount){
+                if(data.errorsAmount){
+                    var p = document.getElementById('paymentAmountError');
+                    p.innerHTML = data.errorsAmount;
+
+                }
+            }
+
+            if (data.errors != null) {
+
+            if(data.errors.paymentAmount){
+                var p = document.getElementById('paymentAmountError');
+                p.innerHTML = data.errors.paymentAmount;
+
+                }
+            }
             if (data.success != null) {
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'BOOKING SAVED',
+                              title: 'INVOICE SAVED',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {
@@ -537,18 +557,8 @@
                               message: data.success,
                               });
 
-                              $("#waitButton").hide();
-                              $("#saveBookingBtn").show();
-
-                              $("tbody").html(data.tableData);
-                                $("#priceArea").html(data.tableData2);
-                                if(data.total==0){
-                $("#bookingButton").hide();
-                $("#bookingPaymentButton").hide();
-            }else{
-                $("#bookingButton").show();
-                $("#bookingPaymentButton").show();
-            }
+                             tableData();
+                             window.location.href = "invoice-history";
                           }
            
         })

@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function addCustomerIndex(){
+
+        return view('customer.add-customer',['title'=>"Add Customer"]);
+    }
+    public function viewCustomerIndex(){
+
+        $customers=User::where('status',1)->where('user_role_iduser_role',2)->get();
+
+        return view('customer.view-customers',['title'=>"View Customer",'customers'=>$customers]);
+    }
+
+    
+
         public function save(Request $request){
 
             $validator = \Validator::make($request->all(), [

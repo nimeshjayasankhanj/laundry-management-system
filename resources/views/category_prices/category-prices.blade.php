@@ -54,7 +54,7 @@
                         <div class="col-lg-12">
                             <button type="button" class="btn btn-primary float-right"
                                     data-toggle="modal"  data-target="#addCategoryPriceModal">
-                                Add CLOTH Price</button>
+                                Add Cloth Price</button>
                         </div>
                     </div>
                     <br>
@@ -178,7 +178,7 @@
                         </div>
                 <button type="submit" class="btn btn-primary"
                      >
-                    Save CLOTH Price</button>
+                    Save Cloth Price</button>
                 </form>
                 </div>
             
