@@ -114,4 +114,11 @@ class BookingController extends Controller
             
         }
 
+        public function printBarcode($id){
+
+            $booking = MasterBooking::find(intval($id));
+
+        return view('print.print-booking')->with(["booking" => $booking]);
+        }
+
 }

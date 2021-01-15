@@ -21,9 +21,10 @@ class CustomerBookingController extends Controller
           
           
 
-            $mainCategories=MainCategory::where('status',1)->get();
+            $mainCategories=MainCategory::where('status',1)->where('idmain_category','!=',2)->get();
+            $weightCategories=MainCategory::where('status',1)->where('idmain_category','=',2)->get();
 
-            return view('booking.make-a-booking',['title'=>'Make a Booking','mainCategories'=>$mainCategories]);
+            return view('booking.make-a-booking',['title'=>'Make a Booking','mainCategories'=>$mainCategories,'weightCategories'=>$weightCategories]);
 
 
         }

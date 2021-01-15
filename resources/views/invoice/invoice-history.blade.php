@@ -96,8 +96,8 @@
                                                            data-id="{{$invoiceDetail->idinvoice}}" id="invoiceId"
                                                            data-target="#viewGrn">View Items</i>
                                                         </a>
-                                                        <a href="#" class="dropdown-item" data-toggle="modal"
-                                                           data-id="{{$invoiceDetail->idinvoice}}" id="masterId"
+                                                        <a href="#" class="dropdown-item" 
+                                                          onclick="print({{$invoiceDetail->idinvoice}})"
                                                            data-target="#viewMore">print</i>
                                                         </a>
                                                     </div>
@@ -159,6 +159,8 @@
         </div>
     </div>
 </div>
+
+<iframe style="display: none;" id="iframeprint" src=""></iframe>
 
 @include('includes/footer_start')
 
@@ -240,6 +242,23 @@
     });
 
 
+    function print(id) {
+        let _this = this,
+            iframeId = 'iframeprint',
+            $iframe = $('iframe#iframeprint');
+        $iframe.attr('src', 'print_invoice/' + id);
+
+        $iframe.load(function () {
+            _this.callPrint(iframeId);
+        });
+    }
+
+    function callPrint(iframeId) {
+        let PDF = document.getElementById(iframeId);
+        PDF.focus();
+        PDF.contentWindow.print();
+    }
+    
     $(document).on('click', '#masterId', function () {
         var masterId = $(this).data("id");
 

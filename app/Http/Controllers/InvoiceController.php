@@ -236,6 +236,7 @@ class InvoiceController extends Controller
         $save->invoice_total=$bookingDetail->total;
         $save->customer=$bookingDetail->user_master_iduser_master;
         $save->date=$systemDate;
+        $save->master_booking_idmaster_booking=$request['idOrder'];
         $save->status=1;
         if($paymentAmount!=null){
             $save->balance=$paymentAmount-$bookingDetail->total;
@@ -315,5 +316,12 @@ class InvoiceController extends Controller
         }
         return response()->json(['tableData' => $tableData]);
     }
+    public function printInvoice($id)
+    {
+        $invoice = Invoice::find(intval($id));
+
+        return view('print.print-invoice')->with(["invoice" => $invoice]);
+    }
+
 
 }

@@ -84,15 +84,19 @@
                                                            data-target="#viewItems">View Items</i>
                                                         </a>
                                                       
+                                                        @if($accepted->barcode==null)
                                                         <a href="#" class="dropdown-item" onclick="generateBarcode({{$accepted->idmaster_booking}})">Generate Barcode</i>
                                                         </a>
-
+                                                        @else
+                                                        <a href="#" class="dropdown-item"  onclick="print({{$accepted->idmaster_booking}})">Print Barcode</i>
+                                                     </a>
+                                                        @endif
+                                                        @if($accepted->barcode)
                                                         <a   class="dropdown-item"
                                                         href="{{route('generate-invoice',['idOrder'=>$accepted->idmaster_booking])}}"
                                                    >Generate Invoice</a>
-
-                                                        {{-- <a href="#" class="dropdown-item" onclick="completedOrder({{$accepted->idmaster_booking}})">Mark as Completed</i>
-                                                     </a> --}}
+                                                        @endif
+                                                       
                                                       
                                                     </div>
                                                 </div>
@@ -154,6 +158,9 @@
         </div>
     </div>
 </div>
+
+<iframe style="display: none;" id="iframeprint" src=""></iframe>
+
 @include('includes/footer_start')
 
 <!-- Plugins js -->
@@ -207,6 +214,22 @@
 
     });
 
+    function print(id) {
+        let _this = this,
+            iframeId = 'iframeprint',
+            $iframe = $('iframe#iframeprint');
+        $iframe.attr('src', 'print_barcode/' + id);
+
+        $iframe.load(function () {
+            _this.callPrint(iframeId);
+        });
+    }
+
+    function callPrint(iframeId) {
+        let PDF = document.getElementById(iframeId);
+        PDF.focus();
+        PDF.contentWindow.print();
+    }
     
 
     $(document).on("wheel", "input[type=number]", function (e) {
@@ -281,7 +304,7 @@ function generateBarcode(bookigId){
     $.post('generateBarCode',{
         bookigId:bookigId
     },function(data){
-
+        location.reload();
     })
 }
 

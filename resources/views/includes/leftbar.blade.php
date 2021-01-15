@@ -36,14 +36,13 @@
                     
                     <li  class="menu-title">BOOKING SECTION</li>
                     <li>
-                        <a href="{{route('make-a-booking')}}" class="waves-effect"><i
-                                    class="dripicons-device-desktop"></i><span>Make a Booking </span></a>
+                        <a href="{{route('make-a-booking')}}" class="waves-effect"><i class="fa fa-book" aria-hidden="true"></i><span>Make a Booking </span></a>
                     </li>
 
                     @if(\Illuminate\Support\Facades\Auth::user()->user_role_iduser_role==2)
 
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="ion-fork ion-pizza"></i><span>Booking<span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-book" aria-hidden="true"></i><span>Booking<span
                                         class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="list-unstyled">
                             <li>
@@ -56,6 +55,21 @@
 
                         </ul>
                     </li>
+
+                    <li  class="menu-title">USER MANAGEMENT</li>
+
+                    <li class="has_sub">
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i><span>Users<span
+                             class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <ul class="list-unstyled">
+                        
+                         
+                          <li>
+                            <a href="view-cus-customers" class="waves-effect"><span>View Customer</span></a>
+                         </li>
+                        </ul>
+                    </li>
+
                     @endif
 
                     @if(\Illuminate\Support\Facades\Auth::user()->user_role_iduser_role==1)
@@ -63,12 +77,13 @@
 
                     <li  class="menu-title">INVOICE SECTION</li>
                     <li>
-                        <a href="{{route('invoice-history')}}" class="waves-effect"><i
-                                    class="dripicons-device-desktop"></i><span>Invoice History</span></a>
+                        <a href="{{route('invoice-history')}}" class="waves-effect"><i class="fa fa-files-o" aria-hidden="true"></i><span>Invoice History</span></a>
                     </li>
 
+                    <li  class="menu-title">TASK MANAGEMENT</li>
+
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="ion-fork ion-pizza"></i><span>Booking<span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-book" aria-hidden="true"></i><span>Booking<span
                                         class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="list-unstyled">
                             <li>
@@ -84,9 +99,6 @@
                         </ul>
                     </li>
 
-
-
-                    
 
                    
                     <li  class="menu-title">BRAND INVENTORY</li>
@@ -111,7 +123,7 @@
                     <li  class="menu-title">Reports</li>
 
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="ion-fork ion-pizza"></i><span>Reports<span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-files-o" aria-hidden="true"></i><span>Reports<span
                                         class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="list-unstyled">
                             <li>
@@ -135,21 +147,7 @@
 
 
 
-                    <li  class="menu-title">PRODUCT INVENTORY</li>
-
-                    <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i><span>Products<span
-                             class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="list-unstyled">
-                        
-                          <li>
-                             <a href="products" class="waves-effect"><span>Products</span></a>
-                          </li>
-                          <li>
-                            <a href="main-categories" class="waves-effect"><span>Categories</span></a>
-                         </li>
-                        </ul>
-                    </li>
+                  
 
                     
 
@@ -157,7 +155,7 @@
                     <li  class="menu-title">USER MANAGEMENT</li>
 
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-cubes"></i><span>Users<span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-user" aria-hidden="true"></i><span>Users<span
                              class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                                 <ul class="list-unstyled">
                         

@@ -28,12 +28,10 @@ Route::get('/sign-up', function () {
 
 
 Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
-    Route::get('/', function () {
-        return view('index', ['title' => 'Home']);
-    });
-    Route::get('/index', function () {
-        return view('index', ['title' => 'Home']);
-    });
+    
+
+    Route::get('/index', 'DashboardController@index')->name('index');
+   
 
     Route::get('/logout', 'SecurityController@logoutNow')->name('logout');
     Route::post('/activateDeactivate', 'CommonController@activateDeactivate')->name('activateDeactivate');
@@ -52,10 +50,19 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
    
     Route::group(['middleware' => 'customer', 'prefix' => ''], function () {
     
-     //booking details
-     Route::get('/completed-cus-works', 'CustomerBookingController@completedCusWorksIndex')->name('completed-cus-works');
+    //booking details
+    Route::get('/completed-cus-works', 'CustomerBookingController@completedCusWorksIndex')->name('completed-cus-works');
     Route::get('/pending-cus-works', 'CustomerBookingController@pendingCusWorks')->name('pending-cus-works');
-        Route::get('/test-page', 'TestController@testPage')->name('test-page');
+    Route::get('/test-page', 'TestController@testPage')->name('test-page');
+
+     //user
+     Route::get('/view-cus-customers', 'UserController@viewCustomersIndex')->name('view-cus-customers');
+     Route::post('/updatePassword', 'UserController@updatePassword')->name('updatePassword');
+     Route::post('/updateUser', 'UserController@updateUser')->name('updateUser');
+     Route::post('/getUserById', 'UserController@getUserById')->name('getUserById');
+   
+     
+     
 });
 
 
@@ -125,6 +132,8 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
     Route::get('/generate-invoice', 'BookingController@generateInvoiceIndex')->name('generate-invoice');
     Route::post('/getAvailableQty', 'BookingController@getAvailableQty')->name('getAvailableQty');
     
+    Route::get('print_barcode/{id}', 'BookingController@printBarcode')->name('print_barcode');
+   
     
     //invoice
     Route::post('/tableInvoiceData', 'InvoiceController@tableInvoiceData')->name('tableInvoiceData');
@@ -133,6 +142,7 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
     Route::post('/editTempInvItem', 'InvoiceController@editTempInvItem')->name('editTempInvItem');
     Route::post('/saveInvoice', 'InvoiceController@saveInvoice')->name('saveInvoice');
     Route::get('/invoice-history', 'InvoiceController@invoiceHistoryIndex')->name('invoice-history');
+    Route::get('print_invoice/{id}', 'InvoiceController@printInvoice')->name('print_invoice');
     Route::post('/getInvoiceItems', 'InvoiceController@getInvoiceItems')->name('getInvoiceItems');
    
 
