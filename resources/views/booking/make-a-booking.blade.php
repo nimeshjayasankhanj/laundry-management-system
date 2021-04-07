@@ -12,7 +12,8 @@
 <!-- Plugins css -->
 <link href="{{ URL::asset('assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}"
     rel="stylesheet">
-<link href="{{ URL::asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}"
+    rel="stylesheet">
 <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ URL::asset('assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css') }}"
     rel="stylesheet" />
@@ -56,15 +57,16 @@
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" checked type="radio" name="inlineRadioOptions"
+                                    <input class="form-check-input radioBtn" checked type="radio" name="radioBtn"
                                         id="inlineRadio1" onclick="getValue(this.value)" value="normal">
                                     <label class="form-check-label" for="inlineRadio1">Continue Normal Process</label>
                                 </div>
                             </div>
                             <div class="col-lg-5">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                        id="inlineRadio2" value="weight" onclick="getValue(this.value)">
+                                    <input class="form-check-input radioBtn" type="radio" name="radioBtn" id="inlineRadio2"
+                                        value="weight" onclick="getValue(this.value)">
+
                                     <label class="form-check-label" for="inlineRadio2">Add Weight Process</label>
                                 </div>
                             </div>
@@ -101,7 +103,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Price(1 pices)</label>
+                                        <label for="example-text-input" class="col-form-label">Price(1 piecs)</label>
 
                                         <input type="number" class="form-control" name="cPrice" id="cPrice" disabled
                                             placeholder="0.00" />
@@ -176,8 +178,27 @@
                     </div>
 
                     <div class="row" id="bookingButton" style="margin-top: 20px">
+                        @if (\Illuminate\Support\Facades\Auth::user()->user_role_iduser_role == 1)
+                            <div class="col-lg-4">
+                                <div class="form-group">
 
+                                    <select class="form-control select2 category" name="customer" id="customer">
+                                        <option value="" disabled selected>Select Customer
+                                        </option>
+                                        @if (isset($customers))
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ "$customer->iduser_master" }}">
+                                                    {{ $customer->first_name }} {{ $customer->last_name }}
+                                                </option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <small class="text-danger" id="customerError"></small>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-4">
+
                             <button type="button" onclick="saveBooking()" class="btn btn-primary" id="saveBookingBtn">
                                 Save Booking</button>
 
@@ -230,7 +251,8 @@
                                     <label for="example-text-input" class="col-form-label">Qty<span style="color: red">
                                             *</span></label>
 
-                                    <input type="number" class="form-control qty" name="qty" id="qty" placeholder="0.00" />
+                                    <input type="number" class="form-control qty" name="qty" id="qty"
+                                        placeholder="0.00" />
                                     <small class="text-danger" id="cPriceWError"></small>
                                 </div>
                             </div>
@@ -291,7 +313,25 @@
                 </div>
 
                 <div class="row" id="bookingWButton" style="margin-top: 20px">
+                    @if (\Illuminate\Support\Facades\Auth::user()->user_role_iduser_role == 1)
+                        <div class="col-lg-4">
+                            <div class="form-group">
 
+                                <select class="form-control select2 category" name="wCustomer" id="wCustomer">
+                                    <option value="" disabled selected>Select Customer
+                                    </option>
+                                    @if (isset($customers))
+                                        @foreach ($customers as $customer)
+                                            <option value="{{ "$customer->iduser_master" }}">
+                                                {{ $customer->first_name }} {{ $customer->last_name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <small class="text-danger" id="wCustomerError"></small>
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-lg-4">
                         <button type="button" onclick="saveBooking()" class="btn btn-primary" id="saveBookingBtn">
                             Save Booking</button>
@@ -368,7 +408,7 @@
                             @endif
                         </select>
 
-                      
+
                         <small class="text-danger" id="uCategoryError"></small>
                     </div>
 
@@ -387,7 +427,7 @@
                             @endif
                         </select>
 
-                      
+
                         <small class="text-danger" id="uCategoryError"></small>
                     </div>
 
@@ -414,7 +454,8 @@
 <script src="{{ URL::asset('assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript">
+<script src="{{ URL::asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"
+    type="text/javascript">
 </script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"
     type="text/javascript"></script>
@@ -489,13 +530,15 @@
     });
 
     function getClothPrice(categoryID) {
+
         $.post('getCothPrice', {
             categoryID: categoryID
         }, function(data) {
 
-            var buttonVal = $('input[name="inlineRadioOptions"]:checked').val();
+            var buttonVal = $('input[name="radioBtn"]:checked').val();
 
-            if (buttonVal == 'weight') {
+            if (buttonVal != 'normal') {
+                console.log(data.price)
                 $("#cWPrice").val(data.price);
             } else {
                 $("#cPrice").val(data.price);
@@ -511,19 +554,20 @@
         $.post('tableData', {
 
         }, function(data) {
-         
-            if (data.total=='0') {
-                console.log(data.total)
+
+            if (data.total == 0) {
+
                 $("#bookingButton").hide();
                 $("#bookingWButton").hide();
                 $("#bookingPaymentButton").hide();
                 $("#bookingPaymentWButton").hide();
 
             } else {
+
                 $("#bookingButton").show();
                 $("#bookingWButton").show();
-                $("#bookingPaymentButton").hide();
-                $("#bookingPaymentWButton").hide();
+                $("#bookingPaymentButton").show();
+                $("#bookingPaymentWButton").show();
             }
 
             $("tbody").html(data.tableData)
@@ -533,8 +577,9 @@
 
 
     function getValue(value) {
-
+       
         if (value == 'normal') {
+           
             $("#weightArea").hide();
             $("#normalArea").show();
         } else {
@@ -556,7 +601,7 @@
             type: 'POST',
             data: $(this).serialize(),
             success: function(data) {
-                console.log(data)
+
                 if (data.errors != null) {
                     if (data.errors.category) {
                         var p = document.getElementById('categoryError');
@@ -568,6 +613,8 @@
                     }
                 }
                 if (data.success != null) {
+                    $('#qty').val('');
+                    $(".select2").val('').trigger('change');
                     notify({
                         type: "success", //alert | success | error | warning | info
                         title: 'BOOKING SAVED',
@@ -580,22 +627,7 @@
                         icon: '<img src="{{ URL::asset('assets/images/correct.png') }}" />',
                         message: data.success,
                     });
-                    $("#category").val('').trigger('change');
-                    $("#qty").val('');
-                    $("tbody").html(data.tableData);
-                    $("#priceArea").html(data.tableData2);
-
-                    if (data.total == 0) {
-                        $("#bookingButton").hide();
-                        $("#bookingWButton").show();
-                        $("#bookingPaymentButton").hide();
-                        $("#bookingPaymentWButton").hide();
-                    } else {
-                        $("#bookingButton").show();
-                        $("#bookingWButton").show();
-                        $("#bookingPaymentButton").hide();
-                        $("#bookingPaymentWButton").hide();
-                    }
+                    tableData();
                 }
             }
         });
@@ -616,7 +648,7 @@
             type: 'POST',
             data: $(this).serialize(),
             success: function(data) {
-                console.log(data)
+
                 if (data.errors != null) {
                     if (data.errors.category) {
                         var p = document.getElementById('categoryWError');
@@ -642,20 +674,7 @@
                     });
                     $(".category").val('').trigger('change');
                     $(".qty").val('');
-                    $("tbody").html(data.tableData);
-                    $("#priceArea").html(data.tableData2);
-
-                    if (data.total == 0) {
-                        $("#bookingButton").hide();
-                        $("#bookingWButton").hide();
-                        $("#bookingPaymentButton").hide();
-                        $("#bookingPaymentWButton").hide();
-                    } else {
-                        $("#bookingButton").show();
-                        $("#bookingWButton").show();
-                        $("#bookingPaymentButton").hide();
-                        $("#bookingPaymentWButton").hide();
-                    }
+                    tableData();
                 }
             }
         });
@@ -666,17 +685,17 @@
         var categoryId = $(this).data("id");
         var categoryQty = $(this).data("qty");
         var category = $(this).data("category");
-    
-        if(category==2){
-           $("#CategoryView").hide();
-           $("#CategoryWView").show();
-           $(".uCategory").val(category).trigger('change');
-        }else{
+
+        if (category == 2) {
+            $("#CategoryView").hide();
+            $("#CategoryWView").show();
+            $(".uCategory").val(category).trigger('change');
+        } else {
             $("#CategoryWView").hide();
             $("#CategoryView").show();
             $(".uCategory").val(category).trigger('change');
         }
-      
+
         $("#hiddenTempId").val(categoryId);
         $("#uQty").val(categoryQty);
     });
@@ -703,19 +722,7 @@
                     icon: '<img src="{{ URL::asset('assets/images/correct.png') }}" />',
                     message: data.success,
                 });
-                $("tbody").html(data.tableData);
-                $("#priceArea").html(data.tableData2);
-
-
-                if (data.total == 0) {
-                    $("#bookingButton").hide();
-                    $("#bookingWButton").hide();
-                    $("#bookingPaymentButton").hide();
-                } else {
-                    $("#bookingButton").show();
-                    $("#bookingWButton").show();
-                    $("#bookingPaymentButton").hide();
-                }
+                tableData();
             }
         })
     });
@@ -733,7 +740,7 @@
             data: $(this).serialize(),
             success: function(data) {
 
-                console.log(data)
+
                 if (data.errors != null) {
                     if (data.errors.uCategory) {
                         var p = document.getElementById('uCategoryError');
@@ -764,8 +771,7 @@
 
                         $('#updateCategoryModal').modal('hide');
                     }, 200);
-                    $("tbody").html(data.tableData);
-                    $("#priceArea").html(data.tableData2);
+                    tableData();
                 }
             }
         });
@@ -790,8 +796,13 @@
         $("#waitButton").show();
         $("#saveBookingBtn").hide();
         $("#saveBookingWBtn").hide();
+        $("#customerError").html('');
+        $("#wCustomerError").html('');
 
-
+        var customer = $("#customer").val();
+        var wCustomer = $("#wCustomer").val();
+        var index = 1;
+        var radioButtonValue = $(".radioBtn:checked").val();
         if (paymentType == 'cash') {
             var payment = 1;
         } else {
@@ -799,8 +810,27 @@
         }
 
         $.post('saveBooking', {
-            payment: payment
+            payment: payment,
+            index: index,
+            customer: customer,
+            wCustomer: wCustomer,
+            radioButtonValue: radioButtonValue
         }, function(data) {
+            console.log(data)
+            if (data.errors != null) {
+                $("#waitButton").hide();
+                $("#saveBookingBtn").show();
+                $("#saveBookingWBtn").hide();
+                if (data.errors.customer) {
+                    var p = document.getElementById('customerError');
+                    p.innerHTML = data.errors.customer[0];
+                }
+                if (data.errors.wCustomer) {
+                    var p = document.getElementById('wCustomerError');
+                    p.innerHTML = data.errors.wCustomer[0];
+                }
+
+            }
 
             if (data.success != null) {
                 notify({
@@ -820,19 +850,7 @@
                 $("#saveBookingBtn").show();
                 $("#saveBookingWBtn").hide();
 
-                $("tbody").html(data.tableData);
-                $("#priceArea").html(data.tableData2);
-                if (data.total == 0) {
-                    $("#bookingButton").hide();
-                    $("#bookingWButton").hide();
-                    $("#bookingPaymentButton").hide();
-                    $("#bookingPaymentWButton").hide();
-                } else {
-                    $("#bookingButton").show();
-                    $("#bookingWButton").show();
-                    $("#bookingPaymentButton").hide();
-                    $("#bookingPaymentWButton").hide();
-                }
+                tableData();
             }
 
         })

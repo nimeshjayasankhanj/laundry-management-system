@@ -13,7 +13,7 @@
             </h3>
 
             <div class="p-3">
-                <h4 class="text-muted font-18 m-b-5 text-center">WelcomeBack !</h4>
+                <h4 class="text-muted font-18 m-b-5 text-center">Welcome Back !</h4>
                 <p class="text-muted text-center">Sign in to continue to The Royal Laundry, where your laundry is treat royally.</p>
 
                 @if(\Session::has('error'))
@@ -40,9 +40,9 @@
 
                     <div class="form-group">
                         <label for="username">NIC</label>
-                        <input type="text" class="form-control" id="username" name="username"
+                        <input type="text" class="form-control" id="nic" name="nic"
                                placeholder="Enter NIC">
-                        <small class="text-danger">{{ $errors->first('username') }}</small>
+                        <small class="text-danger">{{ $errors->first('nic') }}</small>
                     </div>
 
                     <div class="form-group">
@@ -64,7 +64,8 @@
                     <div class="form-group mb-0 row">
                         <div class="col-12">
                             <p style="text-align: center">Not a member yet? <a href="{{ URL::asset('sign-up')}}" class="text-muted">Sign Up</a></p>
-                            
+                            <p style="text-align: center"><a href="{{ URL::asset('forget-password')}}" class="text-muted">Forget password</a></p>
+                           
                         </div>
                     </div>
                 </form>

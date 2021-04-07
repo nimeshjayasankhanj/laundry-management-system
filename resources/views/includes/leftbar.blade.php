@@ -36,7 +36,7 @@
                     
                     <li  class="menu-title">BOOKING SECTION</li>
                     <li>
-                        <a href="{{route('make-a-booking')}}" class="waves-effect"><i class="fa fa-book" aria-hidden="true"></i><span>Make a Booking </span></a>
+                        <a href="{{route('make-a-booking')}}" class="waves-effect"><i class="fa fa-book" aria-hidden="true"></i><span>Create a Laundry Request</span></a>
                     </li>
 
                     @if(\Illuminate\Support\Facades\Auth::user()->user_role_iduser_role==2)
@@ -104,7 +104,7 @@
                     <li  class="menu-title">BRAND INVENTORY</li>
 
                     <li class="has_sub">
-                        <a href="javascript:void(0);" class="waves-effect"><i class="ion-fork ion-pizza"></i><span>Main Service<span
+                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-files-o" aria-hidden="true"></i><span>Main Service<span
                                         class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="list-unstyled">
                             <li>
@@ -126,6 +126,9 @@
                         <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-files-o" aria-hidden="true"></i><span>Reports<span
                                         class="pull-right"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                         <ul class="list-unstyled">
+                            <li>
+                                <a href="{{route('sale-report')}}"><span>Sale Report </span></a>
+                            </li>
                             <li>
                                 <a href="{{route('pending-orders')}}"><span>Pending Orders </span></a>
                             </li>

@@ -54,34 +54,60 @@
 
             <div class="card m-b-20">
                 <div class="card-body">
-                    <form action="{{ route('deactive-stock') }}" method="get">
+                    <form action="{{ route('sale-report') }}" method="get">
                         {{ csrf_field() }}
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
 
-                            <div class="col-lg-5">
-                                <div class="form-group">
-
-                                    <select class="form-control select2 tab" name="productID" id="productID">
-                                        <option value="" disabled selected>Select Product
-                                        </option>
-                                        @if (isset($products))
-                                            @foreach ($products as $product)
-                                                <option value="{{ "$product->idproduct" }}">
-                                                    {{ $product->product_name }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                </div>
+                                <input type="text" class="form-control" name="orderID" id="orderID"
+                                    placeholder="Search by Order  ID" />
                             </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
 
-                            <div class="col-lg-4">
-                                <div class="form-group row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Search</button>
-                                    </div>
+                                <input type="text" class="form-control" name="idinvoice" id="idinvoice"
+                                    placeholder="Search by Invoice  ID" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+
+                                    <select class="form-control select2 tab" name="customer"
+                                    id="customer">
+                                <option value="" disabled selected>Select Customer
+                                </option>
+                                @if(isset($customers))
+                                    @foreach($customers as $customer)
+                                        <option value="{{"$customer->iduser_master"}}">{{$customer->first_name}} {{$customer->last_name}}</option>
+                                    @endforeach
+                                @endif
+
+                            </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-lg-4">
+                            <input type="date" class="form-control" name="date" id="date" placeholder="2021/1/5">
+
+                        </div>
+
+                       
+
+                        <div class="col-lg-4">
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button type="submit"  class="btn btn-primary"
+                                     >Search</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -89,42 +115,53 @@
                 <div class="card-body">
 
                     <h5 style="text-align: center">Here is your report!</h4>
-                        <div class="table-rep-plugin">
-                            <div class="table-responsive b-0" data-pattern="priority-columns">
-                                <table id="datatable-buttons" class="table table-striped table-bordered data-table"
-                                    cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
+                    <div class="table-rep-plugin">
+                        <div class="table-responsive b-0" data-pattern="priority-columns">
+                            <table id="datatable-buttons" class="table table-striped table-bordered data-table"
+                                cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>INVOICE ID</th>
+                                        <th>ORDER ID</th>
+                                        <th>DATE</th>
+                                        <th>CUSTOMER NAME</th>
+                                        <th>PAYMENT TYPE</th>
+                                        <th>AMOUNT</th>
+                                      
+                                    </tr>
+                                </thead>
 
-                                            <th>PRODUCT</th>
-                                            <th style="text-align: right">QTY</th>
-                                            <th style="text-align: right">AVAILABLE QTY</th>
-                                            <th style="text-align: right">BUYING PRICE</th>
+                                <tbody>
 
-                                        </tr>
-                                    </thead>
+                                    @if (count($sales) != 0)
 
-                                    <tbody>
+                                  
+                                       
+                                        @foreach ($sales as $sale)
+                                            <tr>
+                                                <td>{{ str_pad($sale->idinvoice,5,'0',STR_PAD_LEFT) }}</td>
+                                                <td>{{ str_pad($sale->master_booking_idmaster_booking,5,'0',STR_PAD_LEFT) }}</td>
+                                          
+                                                <td>{{ $sale->created_at->toDateString() }}</td>
+                                            
+                                                <td>{{\App\User::find($sale->customer)->first_name }} {{\App\User::find($sale->customer)->last_name }}</td>
+                                                @if ($sale->payment_type==1)
+                                                <td>Cash</td>
+                                                @else
+                                                <td>Card</td>
+                                            @endif
+                                            <td>{{ number_format($sale->paid,2) }}</td>
+                                             
+                                               
+                                            </tr>
+                                          
+                                        @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
 
-                                        @if (count($stocks) != 0)
-
-                                            @foreach ($stocks as $stock)
-                                                <tr>
-                                                    <td>{{ $stock->Product->product_name }}</td>
-                                                    <td style="text-align: right">
-                                                        {{ number_format($stock->qty_grn, 2) }}</td>
-                                                    <td style="text-align: right">
-                                                        {{ number_format($stock->qty_available, 2) }}</td>
-                                                    <td style="text-align: right">{{ number_format($stock->bp, 2) }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-
-                            </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,8 +175,8 @@
 <script src="{{ URL::asset('assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
-<script src="{{ URL::asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"
-    type="text/javascript"></script>
+<script src="{{ URL::asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}" type="text/javascript">
+</script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"
     type="text/javascript"></script>
 <script src="{{ URL::asset('assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js') }}"

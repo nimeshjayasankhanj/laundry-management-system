@@ -355,9 +355,9 @@
                               setTimeout(function () {
                                   $('#addCategoryPriceModal').modal('hide');
                                }, 200);
-                               setTimeout(function () {
-                                location.reload();  
-                             }, 300);
+                            //    setTimeout(function () {
+                            //     location.reload();  
+                            //  }, 300);
                              
                           }
                       } 
@@ -379,13 +379,13 @@
                       success: function (data) {
 
                           if (data.errors != null) {
-                            if(data.errors.uCategory) {
-                                  var p = document.getElementById('uCategoryError');
-                                  p.innerHTML = data.errors.category[0];
-                              }
+                            // if(data.errors.uCategory) {
+                            //       var p = document.getElementById('uCategoryError');
+                            //       p.innerHTML = data.errors.category[0];
+                            //   }
                               if(data.errors.uCPrice) {
                                   var p = document.getElementById('uCPriceError');
-                                  p.innerHTML = data.errors.cPrice[0];
+                                  p.innerHTML = 'Category price should be provided';
                               }
                              
                           }

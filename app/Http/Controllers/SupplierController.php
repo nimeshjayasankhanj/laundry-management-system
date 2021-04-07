@@ -34,8 +34,8 @@ class SupplierController extends Controller
             'supplierName' => 'required|max:45',
             'contactNo1' => 'required|min:9|max:9',
         ], [
-            'supplierName.required' => 'supplier Name should be provided!',
-            'supplierName.max' => 'supplier Name must be less than 255 characters long.',
+            'supplierName.required' => 'Supplier Name should be provided!',
+            'supplierName.max' => 'Supplier Name must be less than 255 characters long.',
             'contactNo1.required' => 'Contact No should be provided!',
             'contactNo1.min' => 'Contact No should be contain 9 number!',
             'contactNo1.max' => 'Contact No should be contain 9 number!',
@@ -83,8 +83,8 @@ class SupplierController extends Controller
             'uSupplierName' => 'required|max:45',
             'uContactNo1' => 'required|min:9|max:9',
         ], [
-            'uSupplierName.required' => 'supplier Name should be provided!',
-            'uSupplierName.max' => 'supplier Name must be less than 255 characters long.',
+            'uSupplierName.required' => 'Supplier Name should be provided!',
+            'uSupplierName.max' => 'Supplier Name must be less than 255 characters long.',
             'uContactNo1.required' => 'Contact No should be provided!',
             'uContactNo1.min' => 'Contact No should be contain 9 number!',
             'uContactNo1.max' => 'Contact No should be contain 9 number!',

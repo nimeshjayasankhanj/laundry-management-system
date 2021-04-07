@@ -29,8 +29,7 @@
 
                     <div class="page-content-wrapper">
 
-                       @if(Auth::user()->user_role_iduser_role==1)
-
+                      
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-6 col-xl-4">
@@ -62,7 +61,7 @@
                            
                          
                          </div>
-                         @endif
+                        
                     </div> <!-- Page content Wrapper -->
 
                 </div> <!-- content -->

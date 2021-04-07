@@ -56,6 +56,7 @@
                                     width="100%">
                                 <thead>
                                 <tr>
+                                    <th>BOOKING ID</th>
                                     <th>CUSTOMER NAME</th>
                                     <th>PAYMENT TYPE</th>
                                     <th>AMOUNT</th>
@@ -67,8 +68,14 @@
                                 @if(count($pendingBooking)>0)
                                     @foreach($pendingBooking as $booking)
                                         <tr>
+                                            <td>{{ str_pad($booking->idmaster_booking,5,'0',STR_PAD_LEFT) }}</td>
+                                           
                                             <td>{{$booking->User->first_name}} {{$booking->User->last_name}}</td>
-                                            <td>{{$booking->payment_type}}</td>
+                                            @if ($booking->payment_type==1)
+                                            <td>Cash</td>
+                                            @else
+                                            <td>Card</td>
+                                            @endif
                                             <td>{{number_format($booking->total,2)}}</td>
                                             <td>
                                                 <div class="dropdown">

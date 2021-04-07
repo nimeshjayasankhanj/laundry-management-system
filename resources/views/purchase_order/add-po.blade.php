@@ -140,7 +140,7 @@
                         <div class="col-lg-2">
                             <button type="button" class="btn btn-md btn-primary waves-effect float-right"
                                     data-toggle="modal"  data-target="#addPOModal" id="savePOButton">
-                                Save PO</button>
+                                Select Supplier</button>
 
                         </div>
 

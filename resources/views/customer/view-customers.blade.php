@@ -48,8 +48,10 @@
         <div class="col-lg-12">
             <div class="card m-b-20">
                 <div class="card-body">
-                    
-
+                    <div class="row">
+                     
+                    </div>
+                    <br/>
                     <div class="table-rep-plugin">
                         <div class="table-responsive b-0" data-pattern="priority-columns">
                             <table id="datatable"  class="table table-striped table-bordered data-table"
@@ -61,14 +63,45 @@
                                     <th>LAST NAME</th>
                                     <th>NIC</th>
                                     <th>CONTACT NO</th>
-                                    <th>EMAIL</th>
+                                    <th>USERNAME</th>
+                                  
                                 </tr>
                                 </thead>
 
                                 <tbody>
                               
                                     @if(count($customers)!=0)
-                                     
+
+                                    {{-- <tr>
+                                        <td>RI</td>
+                                        <TD>THILAKARATHNE</TD>
+                                        <TD>0769846039</TD>
+                                        <TD>thilakarathne</TD>
+                                        <TD>
+                                            <p>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-warning  waves-effect waves-light"
+                                                        data-toggle="modal"
+                                                        data-id="{{ $category->idcategory}}"
+                                                        data-name="{{ $category->category_name}}"
+                                                        id="uCategoryID"
+                                                        data-target="#updateCategoryModal"><i
+                                                            class="fa fa-edit"></i>
+                                                </button>
+                                            </p>
+                                               <p>
+                                                        <button type="button"
+                                                                class="btn btn-sm btn-warning  waves-effect waves-light"
+                                                                data-toggle="modal"
+                                                                data-id="{{ $category->idcategory}}"
+                                                                data-name="{{ $category->category_name}}"
+                                                                id="uCategoryID"
+                                                                data-target="#updateCategoryModal"><i
+                                                                    class="fa fa-edit"></i>
+                                                        </button>
+                                                    </p>
+                                        </TD>
+                                    </tr> --}}
                                     @foreach($customers as $customer)
                                         <tr>
                                             <td>{{$customer->first_name}}</td>

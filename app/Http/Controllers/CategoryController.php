@@ -22,8 +22,8 @@ class CategoryController extends Controller
                 'category' => 'required|max:45',
                  
             ], [
-                'category.required' => 'Category should be provided!',  
-                'category.max' => 'Category must be less than 45 characters.',
+                'category.required' => 'Cloth should be provided!',  
+                'category.max' => 'Cloth must be less than 45 characters.',
               
             ]);
             if ($validator->fails()) {
@@ -33,14 +33,14 @@ class CategoryController extends Controller
 
             $available=MainCategory::where('main_category_name',$request['category'])->exists();
             if($available!=null){
-                return response()->json(['errors'=>'Category name already exist']);
+                return response()->json(['errors'=>'Cloth name already exist']);
             }else{
                 $save=new MainCategory();
                 $save->main_category_name=strtoupper($request['category']);
                 $save->status=1;
                 $save->save();
 
-                return response()->json(['success' => 'Category saved successfully.']);
+                return response()->json(['success' => 'Cloth saved successfully.']);
             }
         }
 
@@ -53,8 +53,8 @@ class CategoryController extends Controller
                 'uCategory' => 'required|max:45',
                  
             ], [
-                'uCategory.required' => 'Category should be provided!',  
-                'uCategory.max' => 'Category must be less than 45 characters.',
+                'uCategory.required' => 'Cloth should be provided!',  
+                'uCategory.max' => 'Cloth must be less than 45 characters.',
               
             ]);
             if ($validator->fails()) {
@@ -64,13 +64,13 @@ class CategoryController extends Controller
 
             $available=MainCategory::where('main_category_name',$request['uCategory'])->where('idmain_category','!=',$request['hiddenCatId'])->exists();
             if($available!=null){
-                return response()->json(['errors'=>'Category name already exist']);
+                return response()->json(['errors'=>'Cloth name already exist']);
             }else{
                 $edit=MainCategory::find($request['hiddenCatId']);
                 $edit->main_category_name=strtoupper($request['uCategory']);
                 $edit->save();
 
-                return response()->json(['success' => 'Category edit successfully.']);
+                return response()->json(['success' => 'Cloth edit successfully.']);
             }
 
         }

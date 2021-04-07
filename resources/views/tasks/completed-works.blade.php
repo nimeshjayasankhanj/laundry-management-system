@@ -45,6 +45,7 @@
 
     <div class="container-fluid">
         <div class="col-lg-12">
+            
             <div class="card m-b-20">
                 <div class="card-body">
                  
@@ -56,9 +57,11 @@
                                     width="100%">
                                 <thead>
                                 <tr>
+                                    <th>BOOKING ID</th>
                                     <th>CUSTOMER NAME</th>
                                     <th>PAYMENT TYPE</th>
                                     <th>AMOUNT</th>
+                                    <td>DATE</td>
                                     <th>OPTION</th>
                                 </tr>
                                 </thead>
@@ -67,9 +70,16 @@
                                 @if(count($completedBooking)>0)
                                     @foreach($completedBooking as $completed)
                                         <tr>
+                                            <td>{{ str_pad($completed->idmaster_booking,5,'0',STR_PAD_LEFT) }}</td>
+                                           
                                             <td>{{$completed->User->first_name}} {{$completed->User->last_name}}</td>
-                                            <td>{{$completed->payment_type}}</td>
+                                            @if ($completed->payment_type==1)
+                                            <td>Cash</td>
+                                            @else
+                                            <td>Card</td>
+                                            @endif
                                             <td>{{number_format($completed->total,2)}}</td>
+                                            <TD>15/01/2021</TD>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-primary waves-effect btn-sm dropdown-toggle" type="button"

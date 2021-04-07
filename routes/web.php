@@ -21,8 +21,14 @@ Route::post('/loginMy', 'SecurityController@signin')->name('loginMy');
 
 //User Management
 Route::post('/saveUser', 'UserController@save')->name('saveUser');
+Route::post('/resetPassword', 'UserController@resetPassword')->name('resetPassword');
+
 Route::get('/sign-up', function () {
     return view('sign-up', ['title' => 'Sign Up']);
+});
+
+Route::get('/forget-password', function () {
+    return view('forget_password.forget-password', ['title' => 'Forget Password']);
 });
 
 
@@ -31,11 +37,13 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
     
 
     Route::get('/index', 'DashboardController@index')->name('index');
-   
+    Route::post('/viewItemList', 'BookingController@viewItemList')->name('viewItemList');
+    
 
     Route::get('/logout', 'SecurityController@logoutNow')->name('logout');
     Route::post('/activateDeactivate', 'CommonController@activateDeactivate')->name('activateDeactivate');
-
+    Route::post('/getInvoiceItems', 'InvoiceController@getInvoiceItems')->name('getInvoiceItems');
+   
 
      //booking
      Route::get('/make-a-booking', 'CustomerBookingController@makeABooking')->name('make-a-booking');
@@ -122,7 +130,6 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
 
     //bbooking
     Route::get('/pending-works', 'BookingController@pendingWorksIndex')->name('pending-works');
-    Route::post('/viewItemList', 'BookingController@viewItemList')->name('viewItemList');
     Route::post('/approvedOrder', 'BookingController@approvedOrder')->name('approvedOrder');
 
     Route::get('/accepted-works', 'BookingController@acceptedWorksIndex')->name('accepted-works');
@@ -143,8 +150,7 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
     Route::post('/saveInvoice', 'InvoiceController@saveInvoice')->name('saveInvoice');
     Route::get('/invoice-history', 'InvoiceController@invoiceHistoryIndex')->name('invoice-history');
     Route::get('print_invoice/{id}', 'InvoiceController@printInvoice')->name('print_invoice');
-    Route::post('/getInvoiceItems', 'InvoiceController@getInvoiceItems')->name('getInvoiceItems');
-   
+  
 
     //reports
     Route::get('/pending-orders', 'ReportController@pendingOrdersIndex')->name('pending-orders');
@@ -153,6 +159,7 @@ Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
    
     Route::get('/active-stock', 'ReportController@activeStockIndex')->name('active-stock');
     Route::get('/deactive-stock', 'ReportController@deactiveStockIndex')->name('deactive-stock');
+    Route::get('/sale-report', 'ReportController@saleReportIndex')->name('sale-report');
    
     
     

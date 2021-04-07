@@ -159,7 +159,7 @@
                         </div>
                 <button type="submit" class="btn btn-primary"
                      >
-                    Save Category</button>
+                    Save Cloth</button>
                 </form>
                 </div>
             
@@ -300,7 +300,7 @@
 
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'CATEGORY SAVED',
+                              title: 'CLOTH SAVED',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {
@@ -354,7 +354,7 @@
 
                               notify({
                               type: "success", //alert | success | error | warning | info
-                              title: 'CATEGORY EDIT',
+                              title: 'CLOTH EDIT',
                               autoHide: true, //true | false
                               delay: 2500, //number ms
                               position: {

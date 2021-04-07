@@ -28,7 +28,7 @@
         </button>
     </li>
     <li class="hide-phone list-inline-item app-search">
-        <h3 class="page-title">{{ $title }}</h3>
+        <h3 class="page-title">Invoice History</h3>
     </li>
 </ul>
 
@@ -46,12 +46,13 @@
     <div class="container-fluid">
 
         <div class="col-lg-12">
+           
             <div class="card m-b-20">
                 <div class="card-body">
                     
                     <div class="table-rep-plugin">
                         <div class="table-responsive b-0" data-pattern="priority-columns">
-                            <table id="datatable"  class="table table-striped table-bordered data-table"
+                            <table id="datatable-buttons"  class="table table-striped table-bordered data-table"
                                     cellspacing="0"
                                     width="100%">
                                 <thead>
@@ -60,8 +61,8 @@
                                     <th>CUSTOMER</th>
                                     <th>DATE</th>
                                     <th>PAYMENT TYPE</th>
-                                    <th style="text-align: right">PAID</th>
-                                    <th style="text-align: right">BALANCE</th>
+                                    <th style="text-align: right">AMOUNT</th>
+                                  
                                     <th>OPTION</th>
                                 </tr>
                                 </thead>
@@ -78,10 +79,14 @@
                                             ?>
                                             <td>{{$customer->first_name}} {{$customer->last_name}}</td>
                                             <td>{{$invoiceDetail->date}}</td>
-                                            <td>{{$invoiceDetail->payment_type}}</td>
+                                            @if ($invoiceDetail->payment_type==1)
+                                                <td>Cash</td>
+                                                @else
+                                                <td>Card</td>
+                                            @endif
+                                          
                                              <td style="text-align: right">{{ number_format($invoiceDetail->paid,2) }}</td>
-                                             <td style="text-align: right">{{ number_format($invoiceDetail->balance,2) }}</td>
-                                           
+                                             
                                              
                                             <td>
                                                 <div class="dropdown">
@@ -237,6 +242,7 @@
         var invId = $(this).data("id");
       
         $.post('getInvoiceItems', {invId: invId}, function (data) {
+            console.log(data)
             $('#viewItem').html(data.tableData);
         });
     });

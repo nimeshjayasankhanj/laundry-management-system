@@ -90,9 +90,11 @@ foreach ($items as $item) {
    $pdf->SetFont('Arial','',6);//set font to arial, Bold, 10pt
    
    $category=\App\MainCategory::find($item->main_category_idmain_category);
-   $pdf->Cell($width/2,3,$x.') '.$category->main_category_name,'0',0,'L');
- 
-   $pdf->Cell($width/2,4,$item->qty,'0',1,'R');
+   $pdf->Cell($width/3,3,$x.') '.$category->main_category_name,'0',0,'L');
+   $pdf->Cell($width/3,4,$item->qty,'0',0,'L');
+   $price=\App\CategoryPrice::where('main_category_idmain_category',$item->main_category_idmain_category)->first();
+   $pdf->Cell($width/3,3,number_format($price->price,2),'0',1,'R');
+  
    $x++;
 }
 
@@ -102,9 +104,18 @@ $pdf->Cell($width,$height,'','T',1,'C');//Horizontal Space
 
 $pdf->SetFont('Arial','B',6);//set font to arial, Bold, 10pt
 $totalCost=\App\MasterBooking::find($invoice->master_booking_idmaster_booking);
-$pdf->Cell($width/2,3,'Total Amount','0',0,'L');
-$pdf->Cell($width/2,4,number_format($totalCost->total,2),'0',1,'R');
+$pdf->Cell($width/2,1,'Total Amount','0',0,'L');
+$pdf->Cell($width/2,1,number_format($totalCost->total,2),'0',1,'R');
 
+$pdf->SetFont('Arial','B',6);//set font to arial, Bold, 10pt
+$totalCost=\App\MasterBooking::find($invoice->master_booking_idmaster_booking);
+$pdf->Cell($width/2,2.6,'Paid Amount','0',0,'L');
+$pdf->Cell($width/2,2.6,number_format($invoice->paid,2),'0',1,'R');
+
+$pdf->SetFont('Arial','B',6);//set font to arial, Bold, 10pt
+$totalCost=\App\MasterBooking::find($invoice->master_booking_idmaster_booking);
+$pdf->Cell($width/2,2.6,'Balance','0',0,'L');
+$pdf->Cell($width/2,2.6,number_format($invoice->balance,2),'0',1,'R');
 
 
 $pdf->Cell($width,$height/2,'','0',1,'T');//Horizontal space

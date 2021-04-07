@@ -68,7 +68,11 @@
                                     @foreach($completedBooking as $completed)
                                         <tr>
                                             <td>{{$completed->User->first_name}} {{$completed->User->last_name}}</td>
-                                            <td>{{$completed->payment_type}}</td>
+                                            @if ($completed->payment_type==1)
+                                            <td>Cash</td>
+                                            @else
+                                            <td>Card</td>
+                                            @endif
                                             <td>{{number_format($completed->total,2)}}</td>
                                             <td>
                                                 <div class="dropdown">

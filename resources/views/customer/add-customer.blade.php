@@ -59,7 +59,7 @@
                                     <form class="" method="post" enctype="multipart/form-data"
                                     action="{{ route('saveUser') }}" id="saveUserId">
                                     {{csrf_field()}}
-                                  
+                                        <input type="hidden" id="userAdmin" name="userAdmin" value="1"/>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -91,16 +91,7 @@
                                             <small class="text-danger" id="emailError"></small>
                                         </div>
                                     
-                                        <div class="form-group">
-                                            <label for="pass">NIC</label>
-                                            <input type="text" class="form-control" id="nicNo" autocomplete="off" name="nicNo" placeholder="NIC No">
-                                            <small class="text-danger" id="NIcError"></small>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pass">Password</label>
-                                            <input type="password" class="form-control" id="password" autocomplete="off" name="password" placeholder="Enter password">
-                                            <small class="text-danger" id="passwordError"></small>
-                                        </div>
+                                      
                     
                                         
                                             <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Sign Up</button>
@@ -225,16 +216,7 @@
                                   p.innerHTML = data.errors.contactNo[0];
                               }
                           
-                              if(data.errors.nicNo) {
-                                  var p = document.getElementById('NIcError');
-                                  p.innerHTML = data.errors.nicNo[0];
-                              }
-                              if(data.errors.password) {
-                                  var p = document.getElementById('passwordError');
-                                  p.innerHTML = data.errors.password[0];
-                              }
-
-
+                    
                           }
 
                           if (data.success != null) {

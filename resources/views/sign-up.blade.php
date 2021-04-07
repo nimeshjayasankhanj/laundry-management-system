@@ -128,6 +128,12 @@
                         data: $(this).serialize(),
                         success: function (data) {
 
+                            if(data.nicAvailable){
+                                if(data.nicAvailable) {
+                                    var p = document.getElementById('NIcError');
+                                    p.innerHTML = data.nicAvailable;
+                                }
+                            }
                             if (data.errors != null) {
 
                               

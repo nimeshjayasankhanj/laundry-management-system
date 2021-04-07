@@ -18,10 +18,16 @@ class DashboardController extends Controller
 {
         public function index(){
 
-          
-            $Pending=MasterBooking::where('status',0)->sum('idmaster_booking');
-            $accepted=MasterBooking::where('status',1)->sum('idmaster_booking');
-            $completed=MasterBooking::where('status',2)->sum('idmaster_booking');
+            if(Auth::user()->user_role_iduser_role==1){
+                $Pending=MasterBooking::where('status',0)->count('idmaster_booking');
+                $accepted=MasterBooking::where('status',1)->count('idmaster_booking');
+                $completed=MasterBooking::where('status',2)->count('idmaster_booking');
+            }else{
+                $Pending=MasterBooking::where('user_master_iduser_master',Auth::user()->iduser_master)->where('status',0)->count('idmaster_booking');
+                $accepted=MasterBooking::where('user_master_iduser_master',Auth::user()->iduser_master)->where('status',1)->count('idmaster_booking');
+                $completed=MasterBooking::where('user_master_iduser_master',Auth::user()->iduser_master)->where('status',2)->count('idmaster_booking');
+            }
+        
 
             return view('index',['title'=>'Dashboard','Pending'=>$Pending,'accepted'=>$accepted,'completed'=>$completed]);
 

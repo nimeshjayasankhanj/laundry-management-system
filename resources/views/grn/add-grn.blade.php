@@ -196,7 +196,7 @@
                         <div class="col-lg-2">
                             <button type="button" class="btn btn-primary waves-effect float-right"
                                     onclick="showSaveModal()" id="saveGRNButton">
-                                Save GRN</button>
+                                Make a Payment</button>
 
                         </div>
 
@@ -232,25 +232,7 @@
                         </div>
                     </div>
                 </div>
-                {{--<div class="row">--}}
-                    {{--<div class="col-md-6">--}}
-                        {{--<div class="form-group">--}}
-                            {{--<label for="supplier">Supplier</label>--}}
-                            {{--<select class="form-control select2" name="supplier"--}}
-                                    {{--id="supplier" required>--}}
-                                {{--<option disabled value="" selected>Select Supplier--}}
-                                {{--</option>--}}
-                                {{--@if(isset($suppliers))--}}
-                                    {{--@foreach($suppliers as $supplier)--}}
-                                        {{--<option value="{{"$supplier->idsupplier"}}">{{"$supplier->company_name"}}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--@endif--}}
-
-                            {{--</select>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                {{--</div>--}}
+            
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -326,116 +308,6 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: none" id="visaBillDiv">
-                    <div class="row col-md-12">
-                        <h6>CARD PAYMENTS</h6>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Card Amount</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">Rs.</div>
-                                    </div>
-                                    <input class="form-control" type="number" min="0"
-                                           oninput="this.value = Math.abs(this.value)" id="cardAmount" placeholder="0.00"
-                                           name="cardAmount">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Card No.</label>
-                                <input class="form-control" type="number" min="0" placeholder="xxxx xxxx xxxx"
-                                       oninput="this.value = Math.abs(this.value)" id="visaBill" name="visaBill">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div style="display: none" id="bankDiv">
-
-                    <div class="row col-md-12">
-                        <h6>BANK PAYMENTS</h6>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="bankName">Bank Name</label>
-                                <select class="form-control select2" name="bankName"
-                                        onchange="getBankAccount(this.value)"
-                                        id="bankName">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="name">Bank Account</label>
-                                <select class="form-control select2" name="bankAccountNo"
-                                        id="bankAccountNo" required>
-                                </select>
-                        </div>
-                        <div class="col-md-4" id="bankAmountDiv">
-                            <div class="form-group ">
-                                <label for="bankAmount">Amount</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">Rs.</div>
-                                    </div>
-                                    <input class="form-control" type="number" min="0"
-                                           oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
-                                           id="bankAmount"
-                                           name="bankAmount">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding-left: 40px">
-                        <div class="col-md-2" >
-                            <div class="form-group">
-                                <button type="button" class="btn btn-md btn-outline-primary waves-effect float-right"
-                                        onclick="addBankDetails()" style="border-radius: 24px;">
-                                    Add Payment</button>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-rep-plugin">
-                                        <div class="table-responsive" data-pattern="priority-columns">
-                                            <table class="table table-striped table-bordered"
-                                                   cellspacing="0"
-                                                   width="100%">
-                                                <thead>
-                                                <tr>
-                                                    <th>BANK NAME</th>
-                                                    <th>BANK ACCOUNT</th>
-                                                    <th style="text-align: right">AMOUNT</th>
-                                                    <th>DELETE</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="bankDetailsTableData">
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-md btn-primary waves-effect float-right"
@@ -685,68 +557,7 @@
 
         });
     }
-    function addBankDetails() {
-        $('#errorAlert2').hide();
-        $('#errorAlert2').html("");
 
-        let bankName = $('#bankName').val();
-        let amount = $('#bankAmount').val();
-        let bankAccountNo = $("#bankAccountNo").val();
-        $.ajax({
-            type: 'POST',
-
-            url: 'addBankDetailsTemp',
-
-            data: {bankName: bankName, amount: amount, bankAccountNo: bankAccountNo},
-
-            success: function (data) {
-                if (data.errors != null) {
-                    $('#errorAlert2').show();
-                    $.each(data.errors, function (key, value) {
-                        $('#errorAlert2').append('<p>' + value + '</p>');
-                    });
-                }
-                if (data.success != null) {
-
-                    notify({
-                        type: "success", //alert | success | error | warning | info
-                        title: 'BANK TEMPORY SAVED',
-                        autoHide: true, //true | false
-                        delay: 2500, //number ms
-                        position: {
-                            x: "right",
-                            y: "top"
-                        },
-                        icon: '<img src="{{ URL::asset('assets/images/correct.png')}}" />',
-
-                        message: data.success,
-                    });
-                    $("#bankName").val('').trigger('change');
-                    $("#bankAccountNo").val('').trigger('change');
-                    $("#amount").val('');
-
-                }
-
-                loadBankPaymentTemp();
-            }
-        });
-
-    }
-    function loadBankPaymentTemp() {
-        $.ajax({
-            type: 'post',
-
-            url: 'loadBankDetailsTemp',
-
-            data: {},
-
-            success: function (data) {
-
-                $('#bankDetailsTableData').html(data.tableData);
-            }
-        });
-
-    }
 
     function getProductPrice(productId) {
         $.post('getProductById', {
@@ -760,107 +571,13 @@
 
 
 
-    function BankPaymentsTempDelete(el) {
-        let id = $(el).attr('data-id');
-        $.ajax({
-            type: 'POST',
-
-            url: 'BankPaymentsTempDelete',
-
-            data: {id: id},
-
-            success: function (data) {
-                loadBankPaymentTemp();
-            }
-        });
-
-    }
-
-    function addItem() {
-
-        $('#errorAlert').hide();
-        $('#errorAlert').html("");
-
-        var category = $("#category").val();
-        var item = $("#item").val();
-        var qtyGrn = $("#qtyGrn").val();
-
-        $.post('saveTempProduct', {
-            category:category,
-            item: item,
-            qtyGrn: qtyGrn,
-
-
-        }, function (data) {
-
-            if (data.errors != null) {
-                $('#errorAlert').show();
-                $.each(data.errors, function (key, value) {
-                    $('#errorAlert').append('<p>' + value + '</p>');
-                });
-            }
-            if (data.success != null) {
-
-                notify({
-                    type: "success", //alert | success | error | warning | info
-                    title: 'ADDED TO TABLE',
-                    autoHide: true, //true | false
-                    delay: 2500, //number ms
-                    position: {
-                        x: "right",
-                        y: "top"
-                    },
-                    icon: '<img src="{{ URL::asset('assets/images/correct.png')}}" />',
-
-                    message: data.success,
-                });
-
-                $('input').val('');
-                $(".select2").val('').trigger('change');
-            }
-            showGrnTempTable();
-        });
-    }
-
-    $(document).on('click', '#deleteGrn', function () {
-        var dGrnId = $(this).data("id");
-        $.post('deleteGrnTemp', {dGrnId: dGrnId}, function (data) {
-            notify({
-                type: "success", //alert | success | error | warning | info
-                title: 'PRODUCT DELETED',
-                autoHide: true, //true | false
-                delay: 2500, //number ms
-                position: {
-                    x: "right",
-                    y: "top"
-                },
-                icon: '<img src="{{ URL::asset('assets/images/correct.png')}}" />',
-
-                message: data.success,
-            });
-            showGrnTempTable();
-        });
-    });
-
+    
     function showSaveModal() {
 
         $('#discount').val(0);
 
         $('#paid').val('');
         $('#paidDueDiv').hide();
-        $('#visaBill').val('');
-        $('#visaBillDiv').hide();
-        $('#bankName').val('');
-        $('#bankDiv').hide();
-        $('#chequeNo').val('');
-        $('#chequeDate').val('');
-        $('#chequeDiv').hide();
-        $('#chequeAmount').val('');
-        $('#chequeAmountDiv').hide();
-        $('#bankAmount').val('');
-        $('#bankAmountDiv').hide();
-        $('#cardAmount').val('');
-        $('#cardAmountDiv').hide();
         $('#discountType').val('1').trigger('change');
         $('#datepicker-autoclose').datepicker('setDate', 'today');
         $('#payment').val('1').trigger('change');
@@ -873,14 +590,7 @@
 
         $('#paid').val('');
         $('#paidDueDiv').hide();
-        $('#visaBill').val('');
-        $('#visaBillDiv').hide();
-        $('#bankName').val('');
-        $('#bankDiv').hide();
-        $('#bankAmount').val('');
-        $('#bankAmountDiv').hide();
-        $('#cardAmount').val('');
-        $('#cardAmountDiv').hide();
+      
         $.ajax({
             type: 'POST',
 
@@ -895,48 +605,15 @@
         });
 
         if(payment== 1) {
-//             $('#paid').val($('#net').val());
             $('#paidDueDiv').show();
         }
-        else if(payment==2){
-             $('#paid').val('');
-            $('#paidDueDiv').show();
-            $('#dueDateArea').show();
-        }
-        else if (payment == 3) {
-            $.ajax({
-                type: 'post',
-
-                url: 'getBankDetails',
-
-                data: {},
-
-                success: function (data) {
-                    $('#bankName').html(data);
-                    $('#bankAmountDiv').show();
-                    $('#bankAmount').val('');
-                    $('#bankDiv').show();
-                    getBankAccount($('#bankName').val());
-                }
-            });
-        }   else if (payment == 4) {
-            $('#visaBill').val('');
-            $('#visaBillDiv').show();
-        }
+     
+        
 
     }
 
 
 
-    function getBankAccount(bankId) {
-        $.post('getAccount', {
-            bankId: bankId,
-        }, function (data) {
-
-            $('#bankAccountNo').html(data);
-            $('#bankAccount').html(data);
-        });
-    }
 
 
     function saveGrn() {
@@ -1011,6 +688,7 @@
                     $('#saveGrn').modal('hide');
 
                 showGrnTempTable();
+                location.reload();
             }
 
         })

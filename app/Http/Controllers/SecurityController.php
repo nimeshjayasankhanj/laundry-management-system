@@ -14,19 +14,19 @@ class SecurityController extends Controller
 
     public function signin(Request $request)
     {
-        $this->validate($request, ['username' => 'required', 'password' => 'required|min:3']);
+        $this->validate($request, ['nic' => 'required', 'password' => 'required|min:9']);
 
-        $advanceEncryption=(new  \App\MyResources\AdvanceEncryption($request->get('password'),"Nova6566",256));
+        $advanceEncryption=(new  \App\MyResources\AdvanceEncryption($request->get('password'),"ROYAL6566",256));
 
         $userData = array(
-            'username' => $request->get('username'),
+            'nic' => $request->get('nic'),
             'password' => $advanceEncryption->encrypt(),
             'status' => '1'
         );
 
-        $user = User::where('nic', $request->get('username'))->where('password',$advanceEncryption->encrypt())->exists();
+        $user = User::where('nic', $request->get('nic'))->where('password',$advanceEncryption->encrypt())->exists();
         if ($user==true){
-            $userData=User::where('nic', $request->get('username'))->where('password',$advanceEncryption->encrypt())->first();
+            $userData=User::where('nic', $request->get('nic'))->where('password',$advanceEncryption->encrypt())->first();
             if ($userData->status==1){
                 session(['userid' => $userData->idUser]);
                 Auth::login($userData);
@@ -37,7 +37,7 @@ class SecurityController extends Controller
             }
 
         }else{
-            return back()->with('error', 'Incorrect login details! Check Username and Password');
+            return back()->with('error', 'Incorrect login details! Check NIC and Password');
         }
 
     }

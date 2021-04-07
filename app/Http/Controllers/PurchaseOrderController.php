@@ -36,6 +36,8 @@ class PurchaseOrderController extends Controller
     public function pendingPoIndex(){
 
          $pendingPO=PurchaseOrder::where('status',0)->orderBy('created_at', 'desc')->get();
+
+   
         return view('purchase_order.pending-po',['title'=>'Pending Purchase Order','pendingPO'=>$pendingPO]);
 
     }

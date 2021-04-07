@@ -70,7 +70,7 @@ class BookingController extends Controller
         public function completeWorksIndex(){
 
             $completedBooking=MasterBooking::where('status',2)->get();
-
+            
             return view('tasks.completed-works',['title'=>'Completed Works','completedBooking'=>$completedBooking]);
      
         }
@@ -91,8 +91,9 @@ class BookingController extends Controller
             $items=Product::where('status',1)->get();
             $idOrder=$request['idOrder'];
             $paymentStatus=MasterBooking::find($request['idOrder']);
-           
-            return view('invoice.generate-invoice',['title'=>'Generate Invoice','items'=>$items,'idOrder'=>$idOrder,'paymentStatus'=>$paymentStatus])->render();
+            $cloths=BookingReg::where('master_booking_idmaster_booking',$idOrder)->get();
+
+            return view('invoice.generate-invoice',['cloths'=>$cloths,'title'=>'Generate Invoice','items'=>$items,'idOrder'=>$idOrder,'paymentStatus'=>$paymentStatus])->render();
         }
 
         public function getAvailableQty(Request $request){

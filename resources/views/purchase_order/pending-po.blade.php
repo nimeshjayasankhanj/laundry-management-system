@@ -62,7 +62,7 @@
                                 </thead>
                                 <tbody>
                                 @if(isset($pendingPO))
-                                    @if(count($pendingPO)==0)
+                                    @if(count($pendingPO)!=0)
                                        
                                    
                                     @foreach($pendingPO as $PO)

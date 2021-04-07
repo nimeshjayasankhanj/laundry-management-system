@@ -68,7 +68,12 @@
                                     @foreach($pendingBooking as $booking)
                                         <tr>
                                             <td>{{$booking->User->first_name}} {{$booking->User->last_name}}</td>
-                                            <td>{{$booking->payment_type}}</td>
+                                            @if ($booking->payment_type==1)
+                                            <td>Cash</td>
+                                            @else
+                                            <td>Card</td>
+                                            @endif
+                                           
                                             <td>{{number_format($booking->total,2)}}</td>
                                             <td>
                                                 <div class="dropdown">
@@ -84,7 +89,7 @@
                                                            data-target="#viewItems">View Items</i>
                                                         </a>
 
-                                                        <a href="#" class="dropdown-item" onclick="approvedOrder({{$booking->idmaster_booking}})">Mark as Accepted</i>
+                                                        {{-- <a href="#" class="dropdown-item" onclick="approvedOrder({{$booking->idmaster_booking}})">Mark as Accepted</i> --}}
                                                      </a>
                                                       
                                                     </div>
