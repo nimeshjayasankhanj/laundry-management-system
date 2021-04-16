@@ -97,13 +97,13 @@
                                                     </button>
                                                     <div class="dropdown-menu"
                                                          aria-labelledby="dropdownMenuButton">
-                                                        <a href="#" class="dropdown-item" data-toggle="modal"
+                                                        {{-- <a href="#" class="dropdown-item" data-toggle="modal"
                                                            data-id="{{$invoiceDetail->idinvoice}}" id="invoiceId"
                                                            data-target="#viewGrn">View Items</i>
-                                                        </a>
+                                                        </a> --}}
                                                         <a href="#" class="dropdown-item" 
                                                           onclick="print({{$invoiceDetail->idinvoice}})"
-                                                           data-target="#viewMore">print</i>
+                                                           data-target="#viewMore">Print Invoice</i>
                                                         </a>
                                                     </div>
                                                 </div>

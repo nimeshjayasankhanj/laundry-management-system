@@ -31,7 +31,7 @@ class SecurityController extends Controller
                 session(['userid' => $userData->idUser]);
                 Auth::login($userData);
 
-                return redirect('/index');
+                return redirect('/');
             }else if($userData->status==0){
                 return back()->with('warning', 'User has been suspended! Contact your System Administrator.');
             }

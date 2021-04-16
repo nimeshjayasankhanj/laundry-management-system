@@ -142,7 +142,7 @@
                                 <a href="{{route('active-stock')}}"><span>Active Stock</span></a>
                             </li>
                             <li>
-                                <a href="{{route('deactive-stock')}}"><span>Deactve Stock</span></a>
+                                <a href="{{route('deactive-stock')}}"><span>Deactive Stock</span></a>
                             </li>
 
                         </ul>

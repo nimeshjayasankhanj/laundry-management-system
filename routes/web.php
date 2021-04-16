@@ -36,7 +36,11 @@ Route::get('/forget-password', function () {
 Route::group(['middleware' => 'auth', 'prefix' => ''], function () {
     
 
-    Route::get('/index', 'DashboardController@index')->name('index');
+    Route::get('/', 'DashboardController@index')->name('/');
+    Route::get('/getOrders', 'DashboardController@getOrders')->name('getOrders');
+    Route::post('/orderDetailChart', 'DashboardController@orderDetailChart')->name('orderDetailChart');
+    Route::post('/incomeChart', 'DashboardController@incomeChart')->name('incomeChart');
+    
     Route::post('/viewItemList', 'BookingController@viewItemList')->name('viewItemList');
     
 

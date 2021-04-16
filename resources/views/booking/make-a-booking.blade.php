@@ -84,7 +84,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Cloth Types<span
+                                        <label for="example-text-input" class="col-form-label">Cloth Type<span
                                                 style="color: red"> *</span></label>
                                         <select class="form-control select2 tab" name="category"
                                             onchange="getClothPrice(this.value)" id="category">
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Price(1 piecs)</label>
+                                        <label for="example-text-input" class="col-form-label">Price (Per Item)</label>
 
                                         <input type="number" class="form-control" name="cPrice" id="cPrice" disabled
                                             placeholder="0.00" />
@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">Qty<span
+                                        <label for="example-text-input" class="col-form-label">Qty Used<span
                                                 style="color: red"> *</span></label>
 
                                         <input type="number" class="form-control" name="qty" id="qty"
@@ -220,11 +220,11 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="example-text-input" class="col-form-label ">Cloth Types<span
+                                    <label for="example-text-input" class="col-form-label ">Category<span
                                             style="color: red"> *</span></label>
                                     <select class="form-control select2 category" name="category"
                                         onchange="getClothPrice(this.value)" id="category">
-                                        <option value="" disabled selected>Select Cloth Type
+                                        <option value="" disabled selected>Select Category
                                         </option>
                                         @if (isset($weightCategories))
                                             @foreach ($weightCategories as $weightCategory)
